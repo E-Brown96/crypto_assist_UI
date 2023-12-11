@@ -18,5 +18,7 @@
 
 # Raw data
 raw_data/
+*.csv
+*.gif
 
 #Update check
