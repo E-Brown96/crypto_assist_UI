@@ -1,0 +1,20 @@
+# Standard python ignores
+*.egg-info
+.coverage
+.ipynb_checkpoints
+**/__pycache__/
+.python-version
+*.pyc
+**/build
+
+# Ignore these Windows generated files
+*Zone.Identifier
+
+# Ignore VS Code generated files
+*.vscode
+
+# Ignore these macos generated files
+.DS_Store
+
+# Raw data
+raw_data/
