@@ -1,3 +1,7 @@
+base64
+PIL
 pandas
+pandas_ta
+plotly
 numpy
 streamlit
