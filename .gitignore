@@ -15,10 +15,3 @@
 
 # Ignore these macos generated files
 .DS_Store
-
-# Raw data
-raw_data/
-*.csv
-*.gif
-
-#Update check
