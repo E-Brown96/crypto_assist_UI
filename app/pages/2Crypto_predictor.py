@@ -19,7 +19,7 @@ df['time'] = pd.to_datetime(df['time'])
 
 df = df[['time','close']]
 
-tail_df = df.tail(7)
+tail_df = df.tail(5)
 
 st.markdown('<p style="color:#CCCCCC;text-align: left;">\
     Please press the button below to display your crypto AI assistants predicted bitcoin price for the past five days!</p>', unsafe_allow_html=True)
@@ -30,7 +30,7 @@ future_predictions_pressed = st.button('Check future Predictions')
 
 if future_predictions_pressed:
     # Example API URL, replace it with your actual API endpoint
-    api_url = 'https://crypto-docker-image-gxpggkqnmq-uc.a.run.app/predict'
+    api_url = 'https://crypto-assist-gxpggkqnmq-ew.a.run.app/predict'
 
     # Fetch data from the API
     response = requests.get(api_url)
@@ -40,13 +40,13 @@ if future_predictions_pressed:
     api_data = response.json()
 
     # Assuming the API returns a DataFrame-like structure with 'time' and 'close' columns
-    pred_last = np.array(api_data['predicted_price_last_7_days'])
+    pred_last = np.array(api_data['predicted_price_last_5_days'])
 
     #Extracting the dates
     existing_dates = tail_df['time']
 
     # Assuming the API returns a DataFrame-like structure with 'time' and 'close' columns
-    pred_future = np.array(api_data['predicted_price_for_next_7_days'])
+    pred_future = np.array(api_data['predicted_price_for_next_5_days'])
 
     # Creating future dates
     future_dates = pd.date_range(existing_dates.max() + pd.Timedelta(days=1), periods=len(pred_future), freq='D')
@@ -65,7 +65,7 @@ if future_predictions_pressed:
     st.plotly_chart(fig, use_container_width=True)
 elif last_predictions_pressed:
     # Example API URL, replace it with your actual API endpoint
-    api_url = 'https://crypto-docker-image-gxpggkqnmq-uc.a.run.app/predict'
+    api_url = 'https://crypto-assist-gxpggkqnmq-ew.a.run.app/predict'
 
     # Fetch data from the API
     response = requests.get(api_url)
@@ -75,7 +75,7 @@ elif last_predictions_pressed:
     api_data = response.json()
 
     # Assuming the API returns a DataFrame-like structure with 'time' and 'close' columns
-    pred_last = np.array(api_data['predicted_price_last_7_days'])
+    pred_last = np.array(api_data['predicted_price_last_5_days'])
 
     #Extracting the dates
     existing_dates = tail_df['time']
@@ -97,7 +97,7 @@ else:
 
 if st.button('Test'):
 
-    api_url = 'https://crypto-docker-image-gxpggkqnmq-uc.a.run.app/predict'
+    api_url = 'https://crypto-assist-gxpggkqnmq-ew.a.run.app/predict'
 
     # Fetch data from the API
     response = requests.get(api_url)
