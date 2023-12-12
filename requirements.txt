@@ -1,4 +1,3 @@
-PIL
 pandas
 pandas_ta
 plotly
