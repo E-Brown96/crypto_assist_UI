@@ -25,53 +25,54 @@ st.markdown('<h5 style="color:#CCCCCC;text-align: left;">\
 st.markdown('<p style="color:#CCCCCC;text-align: left;">\
     If you would like to view additional technical indicators overlaid on the bitcoin graph please select from the below.</p>', unsafe_allow_html=True)
 
-rsi_upper_BB = st.checkbox("Show Upper Bollinger Band", value=False)
-rsi_middle_BB = st.checkbox("Show Middle Bollinger Band", value=False)
-rsi_lower_BB = st.checkbox("Show Lower Bollinger Band", value=False)
+show_BB = st.checkbox("Show Bollinger Band", value=False)
+show_EMA = st.checkbox("Show EMA 200", value=False)
 
-# Calculate Bollinger Bands
+# Calc EMA
+ema_length = 50
+ema_df = pta.ema(df['close'], length=50)
+ema_df.fillna(0, inplace=True)
+df_ema = pd.concat([df['time'], ema_df], axis=1)
+df_ema = df_ema[df_ema['EMA_50'] != 0]
+
+
+# calc Bollinger Bands
 bbands_df = pta.bbands(df['close'], length=20)
 df['Upper_BB'] = bbands_df['BBU_20_2.0']
-df['Middle_BB'] = bbands_df['BBM_20_2.0']
 df['Lower_BB'] = bbands_df['BBL_20_2.0']
-
 df = df.iloc[21:]
-
 fig = go.Figure()
 
-# Create a candlestick chart
+# Candlestick chart
 candlestick_trace = go.Candlestick(x=df['time'],
                 open=df['open'],
                 high=df['high'],
                 low=df['low'],
                 close=df['close'])
-
 fig.add_trace(candlestick_trace)
 
+if show_EMA:
+    plot_ema = go.Scatter(x=df_ema['time'],
+                           y=df_ema['EMA_50'],
+                           mode='lines',
+                           name='EMA',
+                           line=dict(color='orange'))
+    fig.add_trace(plot_ema)
 
-if rsi_lower_BB:
-    rsi_lower_BB = go.Scatter(x=df['time'],
+if show_BB:
+    plot_lower_BB = go.Scatter(x=df['time'],
                            y=df['Lower_BB'],
                            mode='lines',
                            name='Lower_BB',
-                           line=dict(color='purple'))
-    fig.add_trace(rsi_lower_BB)
+                           line=dict(color='blue'))
+    fig.add_trace(plot_lower_BB)
 
-if rsi_middle_BB:
-    rsi_middle_BB = go.Scatter(x=df['time'],
-                           y=df['Middle_BB'],
-                           mode='lines',
-                           name='Middle_BB',
-                           line=dict(color='orange'))
-    fig.add_trace(rsi_middle_BB)
-
-if rsi_upper_BB:
-    adx_trace = go.Scatter(x=df['time'],
+    plot_upper_BB = go.Scatter(x=df['time'],
                            y=df['Upper_BB'],
                            mode='lines',
                            name='Upper_BB',
                            line=dict(color='blue'))
-    fig.add_trace(adx_trace)
+    fig.add_trace(plot_upper_BB)
 
 # Set the layout of the chart
 fig.update_layout(
