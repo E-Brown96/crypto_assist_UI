@@ -24,18 +24,20 @@ tail_df = df.tail(5)
 st.markdown('<p style="color:#CCCCCC;text-align: center;font-size: 24px;">\
     Click the buttons below to unveil your personalized insights into the crypto market! 🚀💰</p>', unsafe_allow_html=True)
 
+@st.cache(show_spinner=False,suppress_st_warning=True)
+def fetch_api_data(api_url):
+    response = requests.get(api_url)
+    print(response.status_code)
+    return response.json()
+
 historical_predictions_pressed = st.button('Check Historical Predictions vs Real Price')
 
 if historical_predictions_pressed:
     # Example API URL, replace it with your actual API endpoint
     api_url = 'https://crypto-assist-gxpggkqnmq-ew.a.run.app/predict'
 
-    # Fetch data from the API
-    response = requests.get(api_url)
-    print(response.status_code)
-
     # Parse API response (assuming it's a JSON response)
-    api_data = response.json()
+    api_data = fetch_api_data(api_url)
 
     # Assuming the API returns a DataFrame-like structure with 'time' and 'close' columns
     hist_pred = np.array(api_data['historical_prediction'])
@@ -85,12 +87,8 @@ if future_predictions_pressed:
     # Example API URL, replace it with your actual API endpoint
     api_url = 'https://crypto-assist-gxpggkqnmq-ew.a.run.app/predict'
 
-    # Fetch data from the API
-    response = requests.get(api_url)
-    print(response.status_code)
-
     # Parse API response (assuming it's a JSON response)
-    api_data = response.json()
+    api_data = fetch_api_data(api_url)
 
     # Assuming the API returns a DataFrame-like structure with 'time' and 'close' columns
     pred_last = np.array(api_data['predicted_price_last_5_days'])
@@ -120,12 +118,8 @@ elif last_predictions_pressed:
     # Example API URL, replace it with your actual API endpoint
     api_url = 'https://crypto-assist-gxpggkqnmq-ew.a.run.app/predict'
 
-    # Fetch data from the API
-    response = requests.get(api_url)
-    print(response.status_code)
-
     # Parse API response (assuming it's a JSON response)
-    api_data = response.json()
+    api_data = fetch_api_data(api_url)
 
     # Assuming the API returns a DataFrame-like structure with 'time' and 'close' columns
     pred_last = np.array(api_data['predicted_price_last_5_days'])
@@ -143,10 +137,7 @@ elif last_predictions_pressed:
 
     # Streamlit display
     st.plotly_chart(fig, use_container_width=True)
-else:
-    fig = px.line(tail_df, x='time', y='close', markers=True, line_shape='linear', title='Price Over Time')
-    fig.update_traces(mode='markers+lines', hovertemplate='%{y:.2f}', marker=dict(size=10))
-    st.plotly_chart(fig, use_container_width=True)
+
 
 alt_model_predictions = st.button('Additional Model Predictions')
 
@@ -154,12 +145,8 @@ if alt_model_predictions:
     # Example API URL, replace it with your actual API endpoint
     api_url = 'https://crypto-assist-gxpggkqnmq-ew.a.run.app/predict'
 
-    # Fetch data from the API
-    response = requests.get(api_url)
-    print(response.status_code)
-
     # Parse API response (assuming it's a JSON response)
-    api_data = response.json()
+    api_data = fetch_api_data(api_url)
 
     # Assuming the API returns a DataFrame-like structure with 'time' and 'close' columns
     pred_last = np.array(api_data['DL_predict_last'][0])
@@ -187,15 +174,7 @@ if alt_model_predictions:
     st.plotly_chart(fig, use_container_width=True)
 
 
-if st.button('Test'):
+if st.button('Reset'):
 
-    api_url = 'https://crypto-assist-gxpggkqnmq-ew.a.run.app/predict'
-
-    # Fetch data from the API
-    response = requests.get(api_url)
-    print(response.status_code)
-
-    # Parse API response (assuming it's a JSON response)
-    api_data = response.json()
-
-    st.write(api_data)
+    st.markdown('<p style="color:#CCCCCC;text-align: center;font-size: 24px;">\
+    Ready to predict! 🚀💰</p>', unsafe_allow_html=True)
