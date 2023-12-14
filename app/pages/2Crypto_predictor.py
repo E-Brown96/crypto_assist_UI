@@ -60,7 +60,9 @@ if historical_predictions_pressed:
 
     # Plotly Express line chart with dots
     fig = px.line(combined_df, x='time', y=['historical_actual', 'hist_prediction'], line_shape='linear', title='Price Over Time')
-    fig.update_traces(mode='lines', hovertemplate='%{y:.2f}')
+    fig.update_traces(mode='lines', hovertemplate='%{y:.2f}',
+                  line=dict(color='dodgerblue'))
+    fig.update_traces(selector=dict(name='hist_prediction'), line=dict(color='lightcoral'))
 
     fig.update_layout(yaxis_range=[0, 50000])
 
@@ -110,7 +112,10 @@ if future_predictions_pressed:
 
     # Plotly Express line chart with dots
     fig = px.line(combined_df, x='time', y=['close','pred','pred_future'], markers=True, line_shape='linear', title='Price Over Time')
-    fig.update_traces(mode='markers+lines', hovertemplate='%{y:.2f}', marker=dict(size=10))
+    fig.update_traces(mode='markers+lines', hovertemplate='%{y:.2f}', marker=dict(size=10), line=dict(color='dodgerblue'))
+    fig.update_traces(selector=dict(name='pred'), line=dict(color='lightcoral'))
+    fig.update_traces(selector=dict(name='pred_future'), line=dict(color='lightgreen'))
+
 
     # Streamlit display
     st.plotly_chart(fig, use_container_width=True)
@@ -134,6 +139,8 @@ elif last_predictions_pressed:
     # Plotly Express line chart with dots
     fig = px.line(combined_df, x='time', y=['close', 'pred'], markers=True, line_shape='linear', title='Price Over Time')
     fig.update_traces(mode='markers+lines', hovertemplate='%{y:.2f}', marker=dict(size=10))
+    fig.update_traces(mode='markers+lines', hovertemplate='%{y:.2f}', marker=dict(size=10), line=dict(color='dodgerblue'))
+    fig.update_traces(selector=dict(name='pred'), line=dict(color='lightcoral'))
 
     # Streamlit display
     st.plotly_chart(fig, use_container_width=True)
@@ -168,7 +175,9 @@ if alt_model_predictions:
 
     # Plotly Express line chart with dots
     fig = px.line(combined_df, x='time', y=['close','pred','pred_future'], markers=True, line_shape='linear', title='Price Over Time')
-    fig.update_traces(mode='markers+lines', hovertemplate='%{y:.2f}', marker=dict(size=10))
+    fig.update_traces(mode='markers+lines', hovertemplate='%{y:.2f}', marker=dict(size=10), line=dict(color='dodgerblue'))
+    fig.update_traces(selector=dict(name='pred'), line=dict(color='lightcoral'))
+    fig.update_traces(selector=dict(name='pred_future'), line=dict(color='lightgreen'))
 
     # Streamlit display
     st.plotly_chart(fig, use_container_width=True)
