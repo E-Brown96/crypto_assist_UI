@@ -26,7 +26,7 @@ st.markdown('<p style="color:#CCCCCC;text-align: left;">\
     If you would like to view additional technical indicators overlaid on the bitcoin graph please select from the below.</p>', unsafe_allow_html=True)
 
 show_BB = st.checkbox("Show Bollinger Band", value=False)
-show_EMA = st.checkbox("Show EMA 200", value=False)
+show_EMA = st.checkbox("Show EMA 50", value=False)
 
 # Calc EMA
 ema_length = 50
@@ -64,14 +64,14 @@ if show_BB:
                            y=df['Lower_BB'],
                            mode='lines',
                            name='Lower_BB',
-                           line=dict(color='blue'))
+                           line=dict(color='#05C3DD'))
     fig.add_trace(plot_lower_BB)
 
     plot_upper_BB = go.Scatter(x=df['time'],
                            y=df['Upper_BB'],
                            mode='lines',
                            name='Upper_BB',
-                           line=dict(color='blue'))
+                           line=dict(color='#05C3DD'))
     fig.add_trace(plot_upper_BB)
 
 # Set the layout of the chart
