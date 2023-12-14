@@ -44,6 +44,14 @@ if historical_predictions_pressed:
 
     hist_actual = np.array(api_data['validation'])
 
+    new_dates = pd.to_datetime(df['time'])
+
+    # Shift all dates 3 months earlier
+    offset_dates = new_dates - pd.DateOffset(months=2)
+
+    # If you want to replace the existing dates in the DataFrame with the shifted dates
+    df['time'] = offset_dates
+
     #Extracting the dates
     existing_dates = df['time']
 
