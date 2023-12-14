@@ -187,3 +187,5 @@ if st.button('Reset'):
 
     st.markdown('<p style="color:#CCCCCC;text-align: center;font-size: 24px;">\
     Ready to predict! 🚀💰</p>', unsafe_allow_html=True)
+
+#comment update
